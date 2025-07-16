@@ -62,24 +62,17 @@ const Header = () => {
             <li>
               <Link to="/chefs" className="hover:text-red-600 transition-all duration-200">Chefs</Link>
             </li>
+            <li>
+              <Link to="/blog" className="hover:text-red-600 transition-all duration-200">Blog</Link>
+            </li>
+
+            <li>
+              <Link to="/element" className="hover:text-red-600 transition-all duration-200">Element</Link>
+            </li>
+
 
             {/* Dropdown */}
-            <li className="relative group">
-              <span className="cursor-pointer hover:text-red-600 transition-all duration-200">
-                Blog
-              </span>
-              <ul className="absolute left-0 top-full mt-1 hidden group-hover:block bg-white border rounded-md shadow-md z-10 w-44">
-                <li>
-                  <Link to="/blog" className="block px-4 py-2 hover:bg-gray-100 transition">Blog</Link>
-                </li>
-                <li>
-                  <Link to="/single-blog" className="block px-4 py-2 hover:bg-gray-100 transition">Single Blog</Link>
-                </li>
-                <li>
-                  <Link to="/elements" className="block px-4 py-2 hover:bg-gray-100 transition">Elements</Link>
-                </li>
-              </ul>
-            </li>
+            
 
             <li>
               <Link to="/contact" className="hover:text-red-600 transition-all duration-200">Contact</Link>
