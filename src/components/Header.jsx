@@ -54,8 +54,8 @@ const Header = () => {
                   >
                     <span className="transition duration-200">{item}</span>
                     <span
-                      className={`absolute bottom-0 left-0 h-0.5 bg-orange-500 transition-all duration-300 ${
-                        isActive ? "w-full" : "w-0 group-hover:w-full"
+                      className={`absolute bottom-0 left-0 h-0.5   bg-orange-500 transition-all duration-300 ${
+                        isActive ? "w-full" : "w-0 group-hover:w-full "
                       }`}
                     ></span>
                   </Link>
