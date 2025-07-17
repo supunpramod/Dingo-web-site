@@ -48,7 +48,7 @@ const Header = () => {
                 <li key={index}>
                   <Link
                     to={path}
-                    className={`relative group transition duration-300 ${
+                    className={`relative group transition duration-300 p-1 ${
                       isActive ? "text-orange-500" : "text-gray-800"
                     }`}
                   >
