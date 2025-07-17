@@ -18,7 +18,7 @@ const Home = () => {
                     creepeth morning
                   </p>
                   <div className="flex flex-wrap items-center gap-4">
-                    <a href="#" className="bg-white text-black px-6 py-3 rounded-full font-medium flex items-center gap-2">
+                    <a href="#" className="bg-white text-black px-6 py-3 rounded-full font-medium flex items-center gap-2 hover:bg-orange-500 hover:text-white">
                       Reservation <img src="img/icon/left_1.svg" alt="" />
                     </a>
                     <a href="https://www.youtube.com/watch?v=pBFQdxA-apI" className="flex items-center gap-2">
