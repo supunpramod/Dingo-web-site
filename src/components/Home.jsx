@@ -4,7 +4,7 @@ const Home = () => {
   return (
     <div className="font-sans">
       {/* Banner Section */}
-      <section className="banner_part bg-cover bg-center py-32" style={{ backgroundImage: "url('img/banner_bg.png')" }}>
+      <section className="banner_part bg-cover bg-center py-32" style={{ backgroundImage: "url('img/booking_tabel_bg.png')" }}>
         <div className="container mx-auto px-4">
           <div className="flex flex-wrap items-center">
             <div className="w-full lg:w-1/2">
