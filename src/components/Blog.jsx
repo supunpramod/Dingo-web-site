@@ -1,4 +1,6 @@
 import React from 'react';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faArrowLeft,faArrowRight} from '@fortawesome/free-solid-svg-icons';
 
 
 const Blog = () => {
@@ -141,7 +143,7 @@ const Blog = () => {
                 <ul className="flex items-center space-x-2">
                   <li>
                     <a href="#" className="w-10 h-10 flex items-center justify-center border border-gray-200 rounded hover:bg-orange-500 hover:text-white transition">
-                      <i className="ti-angle-left"></i>
+                      <FontAwesomeIcon icon={faArrowLeft} />
                     </a>
                   </li>
                   <li>
@@ -156,7 +158,7 @@ const Blog = () => {
                   </li>
                   <li>
                     <a href="#" className="w-10 h-10 flex items-center justify-center border border-gray-200 rounded hover:bg-orange-500 hover:text-white transition">
-                      <i className="ti-angle-right"></i>
+                      <FontAwesomeIcon icon={faArrowRight} />
                     </a>
                   </li>
                 </ul>
