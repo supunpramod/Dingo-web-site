@@ -28,7 +28,7 @@ const About = () => {
                 <img src="img/about.png" alt="About our restaurant" className="w-full rounded-lg shadow-lg" />
               </div>
             </div>
-            <div className="w-full lg:w-4/12 order-1 lg:order-2">
+            <div className="w-full sm:w-2/3 lg:w-4/12 order-1 sm:order-2">
               <div className="space-y-4">
                 <h5 className="text-lg text-orange-500">Our History</h5>
                 <h2 className="text-4xl font-bold">Where The Food's As Good As The Root Beer.</h2>
