@@ -1,5 +1,7 @@
+import { BrowserRouter, Routes, Route, Outlet } from "react-router-dom";
+import { useState } from "react";
 
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+// Components
 import Header from "./components/Header.jsx";
 import Home from "./components/Home.jsx";
 import Footer from "./components/Footer.jsx";
@@ -10,24 +12,51 @@ import Blog from "./components/Blog.jsx";
 import Element from "./components/Element.jsx";
 import Contact from "./components/Contact.jsx";
 
+// විසඳුම: Named import භාවිතා කරන්න
+import  Sidebar  from "./dashboard components/Sidebar.jsx";
+import Topbar from "./dashboard components/Topbar.jsx";
+import Dashboard from "./dashboard components/Dashboard.jsx";
 
+// Dashboard Layout Component (මෙලෙසම තබන්න)
+const DashboardLayout = ({ sidebarOpen, setSidebarOpen }) => {
+  return (
+    <div className="flex h-screen bg-gray-100">
+      <Sidebar sidebarOpen={sidebarOpen} toggleSidebar={() => setSidebarOpen(!sidebarOpen)} />
+      <div className="flex-1 flex flex-col overflow-hidden">
+        <Topbar sidebarOpen={sidebarOpen} />
+        <div className="flex-1 overflow-y-auto p-4">
+          <Outlet /> {/* Nested routes render කරයි */}
+        </div>
+      </div>
+    </div>
+  );
+};
 
 function App() {
+  const [sidebarOpen, setSidebarOpen] = useState(true);
+
   return (
     <BrowserRouter>
-      <Header />
       <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/about" element={<About />} />
-        <Route path="/menu" element={<Menu />} />
-        <Route path="/chefs" element={<Chefs />} />
-        <Route path="/blog" element={<Blog />} />
-        <Route path="/element" element={<Element />} />
-        <Route path="/contact" element={<Contact />} />
-        
-        
+        {/* Website Routes (මෙලෙසම තබන්න) */}
+        <Route path="/" element={<><Header /><Home /><Footer /></>} />
+        <Route path="/about" element={<><Header /><About /><Footer /></>} />
+        <Route path="/menu" element={<><Header /><Menu /><Footer /></>} />
+        <Route path="/chefs" element={<><Header /><Chefs /><Footer /></>} />
+        <Route path="/blog" element={<><Header /><Blog /><Footer /></>} />
+        <Route path="/element" element={<><Header /><Element /><Footer /></>} />
+        <Route path="/contact" element={<><Header /><Contact /><Footer /></>} />
+
+        {/* Dashboard Routes */}
+        <Route 
+          element={<DashboardLayout sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} />}
+        >
+          <Route path="/dashboard" element={<Dashboard />} />
+        </Route>
+
+        {/* 404 Page */}
+        <Route path="*" element={<div className="text-center text-2xl mt-10">404 - Page Not Found</div>} />
       </Routes>
-      <Footer />
     </BrowserRouter>
   );
 }
