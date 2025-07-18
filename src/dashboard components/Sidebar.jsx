@@ -3,7 +3,7 @@ import { HomeIcon, UsersIcon, FolderIcon, CalendarIcon, ChartBarIcon, CogIcon } 
 
 const navItems = [
   { name: 'Dashboard', icon: HomeIcon, path: '/dashboard' }, // පාඨ "/" සිට "/dashboard" ලෙස වෙනස් කරන්න
-  { name: 'Team', icon: UsersIcon, path: '/team' },
+  { name: 'Food Menu', icon: UsersIcon, path: '/foodmenu' },
   { name: 'Projects', icon: FolderIcon, path: '/projects' },
   { name: 'Calendar', icon: CalendarIcon, path: '/calendar' },
   { name: 'Reports', icon: ChartBarIcon, path: '/reports' },

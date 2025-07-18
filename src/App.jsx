@@ -16,6 +16,7 @@ import Contact from "./components/Contact.jsx";
 import  Sidebar  from "./dashboard components/Sidebar.jsx";
 import Topbar from "./dashboard components/Topbar.jsx";
 import Dashboard from "./dashboard components/Dashboard.jsx";
+import FoodMenu from "./dashboard components/Foodmenu.jsx";
 
 // Dashboard Layout Component (මෙලෙසම තබන්න)
 const DashboardLayout = ({ sidebarOpen, setSidebarOpen }) => {
@@ -52,7 +53,7 @@ function App() {
           element={<DashboardLayout sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} />}
         >
           <Route path="/dashboard" element={<Dashboard />} />
-          <Route path="team" element={<h1>Teamhaha</h1>} />
+          <Route path="/foodmenu" element={<FoodMenu />} />
 
         </Route>
 
