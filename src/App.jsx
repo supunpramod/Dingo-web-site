@@ -52,10 +52,16 @@ function App() {
           element={<DashboardLayout sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} />}
         >
           <Route path="/dashboard" element={<Dashboard />} />
+          <Route path="team" element={<h1>Teamhaha</h1>} />
+
         </Route>
 
         {/* 404 Page */}
         <Route path="*" element={<div className="text-center text-2xl mt-10">404 - Page Not Found</div>} />
+
+    
+
+
       </Routes>
     </BrowserRouter>
   );
