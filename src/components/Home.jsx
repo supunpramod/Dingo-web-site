@@ -1,9 +1,53 @@
-
+import React, { useState, useEffect } from "react";
+import axios from "axios"; // Keep axios for the other section if needed
 
 const Home = () => {
+  // We can remove exclusiveItems state if it's no longer needed for this section.
+  // For now, I'll keep menuItems as it was fetched using the same endpoint.
+  // If no other section needs the fetched data, you can remove the axios import and useEffect entirely.
+  const [menuItems, setMenuItems] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  const API_BASE_URL = "http://localhost:3000/api"; // Make sure this matches your backend PORT
+
+  useEffect(() => {
+    const fetchMenuItems = async () => { // Renamed to reflect only menu items now
+      try {
+        setLoading(true);
+        // Only fetch for menu items if exclusive items are now static
+        const res = await axios.get(`${API_BASE_URL}/items`);
+        setMenuItems(res.data);
+        setLoading(false);
+      } catch (err) {
+        console.error("Error fetching menu items:", err);
+        setError("Failed to load menu items. Please try again later.");
+        setLoading(false);
+      }
+    };
+
+    fetchMenuItems();
+  }, []); // The empty dependency array ensures this runs once after the initial render
+
+  if (loading) {
+    return (
+      <div className="font-sans text-center py-20">
+        <p className="text-xl font-semibold text-orange-500">Loading delicious items...</p>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="font-sans text-center py-20">
+        <p className="text-xl font-semibold text-red-600">{error}</p>
+      </div>
+    );
+  }
+
   return (
     <div className="font-sans">
-      {/* Banner Section */}
+      {/* Banner Section - Remains static */}
       <section className="banner_part bg-cover bg-center py-32" style={{ backgroundImage: "url('img/booking_tabel_bg.png')" }}>
         <div className="container mx-auto px-4">
           <div className="flex flex-wrap items-center">
@@ -32,7 +76,7 @@ const Home = () => {
         </div>
       </section>
 
-      {/* Exclusive Items Section */}
+      {/* Exclusive Items Section - STATIC CONTENT RESTORED */}
       <section className="py-20">
         <div className="container mx-auto px-4">
           <div className="mb-12">
@@ -84,7 +128,7 @@ const Home = () => {
         </div>
       </section>
 
-      {/* About Section */}
+      {/* About Section - Remains static */}
       <section className="py-20">
         <div className="container mx-auto px-4">
           <div className="flex flex-wrap items-center">
@@ -111,7 +155,7 @@ const Home = () => {
         </div>
       </section>
 
-      {/* Video Section */}
+      {/* Video Section - Remains static */}
       <section className="py-32 bg-cover bg-center" style={{ backgroundImage: "url('img/intro_video_bg.png')" }}>
         <div className="container mx-auto px-4">
           <div className="text-center text-white">
@@ -125,7 +169,7 @@ const Home = () => {
         </div>
       </section>
 
-      {/* Food Menu Section */}
+      {/* Food Menu Section - Dynamically populated */}
       <section className="py-20 bg-gray-100">
         <div className="container mx-auto px-4">
           <div className="flex flex-wrap justify-between mb-12">
@@ -159,65 +203,28 @@ const Home = () => {
           <div className="tab-content">
             <div className="active_tab">
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-8">
-                <div className="space-y-6">
-                  <div className="flex items-center gap-4 bg-white p-4 rounded-lg">
-                    <img src="img/food_menu/single_food_1.png" alt="Pork Sandwich" className="w-20 h-20 object-cover" />
+                {/* Map over menuItems to display them */}
+                {menuItems.map((item) => (
+                  <div key={item._id} className="flex items-center gap-4 bg-white p-4 rounded-lg">
+                    {/* Using item.picture from database */}
+                    <img src={item.picture} alt={item.title} className="w-20 h-20 object-cover rounded-lg" />
                     <div>
-                      <h3 className="text-xl font-bold">Pork Sandwich</h3>
-                      <p className="text-gray-600">They're wherein heaven seed hath nothing</p>
-                      <h5 className="text-orange-500 font-bold">$40.00</h5>
+                      {/* Using item.title from database */}
+                      <h3 className="text-xl font-bold">{item.title}</h3>
+                      {/* Using item.describe from database */}
+                      <p className="text-gray-600">{item.describe}</p>
+                      {/* Using item.price from database */}
+                      <h5 className="text-orange-500 font-bold">${item.price.toFixed(2)}</h5>
                     </div>
                   </div>
-                  <div className="flex items-center gap-4 bg-white p-4 rounded-lg">
-                    <img src="img/food_menu/single_food_2.png" alt="Roasted Marrow" className="w-20 h-20 object-cover" />
-                    <div>
-                      <h3 className="text-xl font-bold">Roasted Marrow</h3>
-                      <p className="text-gray-600">They're wherein heaven seed hath nothing</p>
-                      <h5 className="text-orange-500 font-bold">$40.00</h5>
-                    </div>
-                  </div>
-                  <div className="flex items-center gap-4 bg-white p-4 rounded-lg">
-                    <img src="img/food_menu/single_food_3.png" alt="Summer Cooking" className="w-20 h-20 object-cover" />
-                    <div>
-                      <h3 className="text-xl font-bold">Summer Cooking</h3>
-                      <p className="text-gray-600">They're wherein heaven seed hath nothing</p>
-                      <h5 className="text-orange-500 font-bold">$40.00</h5>
-                    </div>
-                  </div>
-                </div>
-                <div className="space-y-6">
-                  <div className="flex items-center gap-4 bg-white p-4 rounded-lg">
-                    <img src="img/food_menu/single_food_4.png" alt="Easter Delight" className="w-20 h-20 object-cover" />
-                    <div>
-                      <h3 className="text-xl font-bold">Easter Delight</h3>
-                      <p className="text-gray-600">They're wherein heaven seed hath nothing</p>
-                      <h5 className="text-orange-500 font-bold">$40.00</h5>
-                    </div>
-                  </div>
-                  <div className="flex items-center gap-4 bg-white p-4 rounded-lg">
-                    <img src="img/food_menu/single_food_5.png" alt="Tiener Schnitze" className="w-20 h-20 object-cover" />
-                    <div>
-                      <h3 className="text-xl font-bold">Tiener Schnitze</h3>
-                      <p className="text-gray-600">They're wherein heaven seed hath nothing</p>
-                      <h5 className="text-orange-500 font-bold">$40.00</h5>
-                    </div>
-                  </div>
-                  <div className="flex items-center gap-4 bg-white p-4 rounded-lg">
-                    <img src="img/food_menu/single_food_6.png" alt="Chicken Roast" className="w-20 h-20 object-cover" />
-                    <div>
-                      <h3 className="text-xl font-bold">Chicken Roast</h3>
-                      <p className="text-gray-600">They're wherein heaven seed hath nothing</p>
-                      <h5 className="text-orange-500 font-bold">$40.00</h5>
-                    </div>
-                  </div>
-                </div>
+                ))}
               </div>
             </div>
           </div>
         </div>
       </section>
 
-      {/* Chefs Section */}
+      {/* Chefs Section - Remains static */}
       <section className="py-20">
         <div className="container mx-auto px-4">
           <div className="mb-12">
@@ -302,7 +309,7 @@ const Home = () => {
         </div>
       </section>
 
-      {/* Reservation Section */}
+      {/* Reservation Section - Remains static (for now) */}
       <section className="py-20">
         <div className="container mx-auto px-4">
           <div className="mb-12">
@@ -366,7 +373,7 @@ const Home = () => {
         </div>
       </section>
 
-      {/* Testimonials Section */}
+      {/* Testimonials Section - Remains static (for now) */}
       <section className="py-20 bg-gray-100">
         <div className="container mx-auto px-4">
           <div className="mb-12">
@@ -397,7 +404,7 @@ const Home = () => {
         </div>
       </section>
 
-      {/* Blog Section */}
+      {/* Blog Section - Remains static (for now) */}
       <section className="py-20">
         <div className="container mx-auto px-4">
           <div className="mb-12">
