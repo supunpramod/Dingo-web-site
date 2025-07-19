@@ -1,33 +1,36 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios"; // Keep axios for the other section if needed
+import axios from "axios";
 
 const Home = () => {
-  // We can remove exclusiveItems state if it's no longer needed for this section.
-  // For now, I'll keep menuItems as it was fetched using the same endpoint.
-  // If no other section needs the fetched data, you can remove the axios import and useEffect entirely.
   const [menuItems, setMenuItems] = useState([]);
+  const [chefs, setChefs] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  const API_BASE_URL = "http://localhost:3000/api"; // Make sure this matches your backend PORT
+  const API_BASE_URL = "http://localhost:3000/api";
 
   useEffect(() => {
-    const fetchMenuItems = async () => { // Renamed to reflect only menu items now
+    const fetchData = async () => {
       try {
         setLoading(true);
-        // Only fetch for menu items if exclusive items are now static
-        const res = await axios.get(`${API_BASE_URL}/items`);
-        setMenuItems(res.data);
+        // Fetch menu items
+        const itemsRes = await axios.get(`${API_BASE_URL}/items`);
+        setMenuItems(itemsRes.data);
+        
+        // Fetch chefs
+        const chefsRes = await axios.get(`${API_BASE_URL}/chefs`);
+        setChefs(chefsRes.data || []);
+        
         setLoading(false);
       } catch (err) {
-        console.error("Error fetching menu items:", err);
-        setError("Failed to load menu items. Please try again later.");
+        console.error("Error fetching data:", err);
+        setError("Failed to load data. Please try again later.");
         setLoading(false);
       }
     };
 
-    fetchMenuItems();
-  }, []); // The empty dependency array ensures this runs once after the initial render
+    fetchData();
+  }, []);
 
   if (loading) {
     return (
@@ -47,7 +50,7 @@ const Home = () => {
 
   return (
     <div className="font-sans">
-      {/* Banner Section - Remains static */}
+      {/* Banner Section */}
       <section className="banner_part bg-cover bg-center py-32" style={{ backgroundImage: "url('img/booking_tabel_bg.png')" }}>
         <div className="container mx-auto px-4">
           <div className="flex flex-wrap items-center">
@@ -76,7 +79,7 @@ const Home = () => {
         </div>
       </section>
 
-      {/* Exclusive Items Section - STATIC CONTENT RESTORED */}
+      {/* Exclusive Items Section */}
       <section className="py-20">
         <div className="container mx-auto px-4">
           <div className="mb-12">
@@ -128,7 +131,7 @@ const Home = () => {
         </div>
       </section>
 
-      {/* About Section - Remains static */}
+      {/* About Section */}
       <section className="py-20">
         <div className="container mx-auto px-4">
           <div className="flex flex-wrap items-center">
@@ -155,7 +158,7 @@ const Home = () => {
         </div>
       </section>
 
-      {/* Video Section - Remains static */}
+      {/* Video Section */}
       <section className="py-32 bg-cover bg-center" style={{ backgroundImage: "url('img/intro_video_bg.png')" }}>
         <div className="container mx-auto px-4">
           <div className="text-center text-white">
@@ -169,62 +172,7 @@ const Home = () => {
         </div>
       </section>
 
-      {/* Food Menu Section - Dynamically populated */}
-      <section className="py-20 bg-gray-100">
-        <div className="container mx-auto px-4">
-          <div className="flex flex-wrap justify-between mb-12">
-            <div className="w-full lg:w-5/12 mb-6 lg:mb-0">
-              <div className="space-y-2">
-                <p className="text-lg text-orange-500">Popular Menu</p>
-                <h2 className="text-4xl font-bold">Delicious Food Menu</h2>
-              </div>
-            </div>
-            <div className="w-full lg:w-6/12">
-              <div className="flex flex-wrap border-b border-gray-300">
-                <button className="px-4 py-2 font-medium text-orange-500 border-b-2 border-orange-500 flex items-center gap-2">
-                  Special <img src="img/icon/play.svg" alt="" />
-                </button>
-                <button className="px-4 py-2 font-medium text-gray-600 flex items-center gap-2">
-                  Breakfast <img src="img/icon/play.svg" alt="" />
-                </button>
-                <button className="px-4 py-2 font-medium text-gray-600 flex items-center gap-2">
-                  Launch <img src="img/icon/play.svg" alt="" />
-                </button>
-                <button className="px-4 py-2 font-medium text-gray-600 flex items-center gap-2">
-                  Dinner <img src="img/icon/play.svg" alt="" />
-                </button>
-                <button className="px-4 py-2 font-medium text-gray-600 flex items-center gap-2">
-                  Sneaks <img src="img/icon/play.svg" alt="" />
-                </button>
-              </div>
-            </div>
-          </div>
-
-          <div className="tab-content">
-            <div className="active_tab">
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-8">
-                {/* Map over menuItems to display them */}
-                {menuItems.map((item) => (
-                  <div key={item._id} className="flex items-center gap-4 bg-white p-4 rounded-lg">
-                    {/* Using item.picture from database */}
-                    <img src={item.picture} alt={item.title} className="w-20 h-20 object-cover rounded-lg" />
-                    <div>
-                      {/* Using item.title from database */}
-                      <h3 className="text-xl font-bold">{item.title}</h3>
-                      {/* Using item.describe from database */}
-                      <p className="text-gray-600">{item.describe}</p>
-                      {/* Using item.price from database */}
-                      <h5 className="text-orange-500 font-bold">${item.price.toFixed(2)}</h5>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Chefs Section - Remains static */}
+      {/* Chefs Section - Dynamic */}
       <section className="py-20">
         <div className="container mx-auto px-4">
           <div className="mb-12">
@@ -236,80 +184,42 @@ const Home = () => {
             </div>
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
-            <div className="bg-white rounded-lg overflow-hidden shadow-md text-center">
-              <div className="p-4">
-                <img src="img/team/chefs_1.png" alt="Adam Billiard" className="w-full rounded-full" />
-              </div>
-              <div className="p-6">
-                <h3 className="text-2xl font-bold mb-2">Adam Billiard</h3>
-                <p className="text-gray-600 mb-4">Chef Master</p>
-                <div className="flex justify-center gap-4">
-                  <a href="#" className="text-gray-600 hover:text-orange-500 text-xl">
-                    <i className="ti-facebook"></i>
-                  </a>
-                  <a href="#" className="text-gray-600 hover:text-orange-500 text-xl">
-                    <i className="ti-twitter-alt"></i>
-                  </a>
-                  <a href="#" className="text-gray-600 hover:text-orange-500 text-xl">
-                    <i className="ti-instagram"></i>
-                  </a>
-                  <a href="#" className="text-gray-600 hover:text-orange-500 text-xl">
-                    <i className="ti-skype"></i>
-                  </a>
+            {chefs.map((chef) => (
+              <div
+                key={chef._id}
+                className="bg-white rounded-lg overflow-hidden shadow-md text-center"
+              >
+                <div className="p-4">
+                  <img
+                    src={chef.image}
+                    alt={chef.name}
+                    className="w-full rounded-full"
+                  />
+                </div>
+                <div className="p-6">
+                  <h3 className="text-2xl font-bold mb-2">{chef.name}</h3>
+                  <p className="text-gray-600 mb-4">{chef.position}</p>
+                  <div className="flex justify-center gap-4">
+                    {chef.social?.map((s, index) => (
+                      <a
+                        key={index}
+                        href={s.link}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-gray-600 hover:text-orange-500 text-xl"
+                      >
+                        <i className={s.icon}></i>
+                      </a>
+                    ))}
+                  </div>
                 </div>
               </div>
-            </div>
-            <div className="bg-white rounded-lg overflow-hidden shadow-md text-center">
-              <div className="p-4">
-                <img src="img/team/chefs_2.png" alt="Fred Macyard" className="w-full rounded-full" />
-              </div>
-              <div className="p-6">
-                <h3 className="text-2xl font-bold mb-2">Fred Macyard</h3>
-                <p className="text-gray-600 mb-4">Chef Master</p>
-                <div className="flex justify-center gap-4">
-                  <a href="#" className="text-gray-600 hover:text-orange-500 text-xl">
-                    <i className="ti-facebook"></i>
-                  </a>
-                  <a href="#" className="text-gray-600 hover:text-orange-500 text-xl">
-                    <i className="ti-twitter-alt"></i>
-                  </a>
-                  <a href="#" className="text-gray-600 hover:text-orange-500 text-xl">
-                    <i className="ti-instagram"></i>
-                  </a>
-                  <a href="#" className="text-gray-600 hover:text-orange-500 text-xl">
-                    <i className="ti-skype"></i>
-                  </a>
-                </div>
-              </div>
-            </div>
-            <div className="bg-white rounded-lg overflow-hidden shadow-md text-center">
-              <div className="p-4">
-                <img src="img/team/chefs_3.png" alt="Justin Stuard" className="w-full rounded-full" />
-              </div>
-              <div className="p-6">
-                <h3 className="text-2xl font-bold mb-2">Justin Stuard</h3>
-                <p className="text-gray-600 mb-4">Chef Master</p>
-                <div className="flex justify-center gap-4">
-                  <a href="#" className="text-gray-600 hover:text-orange-500 text-xl">
-                    <i className="ti-facebook"></i>
-                  </a>
-                  <a href="#" className="text-gray-600 hover:text-orange-500 text-xl">
-                    <i className="ti-twitter-alt"></i>
-                  </a>
-                  <a href="#" className="text-gray-600 hover:text-orange-500 text-xl">
-                    <i className="ti-instagram"></i>
-                  </a>
-                  <a href="#" className="text-gray-600 hover:text-orange-500 text-xl">
-                    <i className="ti-skype"></i>
-                  </a>
-                </div>
-              </div>
-            </div>
+            ))}
           </div>
         </div>
       </section>
 
-      {/* Reservation Section - Remains static (for now) */}
+      {/* Reservation Section */}
       <section className="py-20">
         <div className="container mx-auto px-4">
           <div className="mb-12">
@@ -373,7 +283,7 @@ const Home = () => {
         </div>
       </section>
 
-      {/* Testimonials Section - Remains static (for now) */}
+      {/* Testimonials Section */}
       <section className="py-20 bg-gray-100">
         <div className="container mx-auto px-4">
           <div className="mb-12">
@@ -404,7 +314,7 @@ const Home = () => {
         </div>
       </section>
 
-      {/* Blog Section - Remains static (for now) */}
+      {/* Blog Section */}
       <section className="py-20">
         <div className="container mx-auto px-4">
           <div className="mb-12">
