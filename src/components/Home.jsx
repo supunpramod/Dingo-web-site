@@ -158,6 +158,61 @@ const Home = () => {
         </div>
       </section>
 
+      {/* Food Menu Section - Dynamically populated */}
+      <section className="py-20 bg-gray-100">
+        <div className="container mx-auto px-4">
+          <div className="flex flex-wrap justify-between mb-12">
+            <div className="w-full lg:w-5/12 mb-6 lg:mb-0">
+              <div className="space-y-2">
+                <p className="text-lg text-orange-500">Popular Menu</p>
+                <h2 className="text-4xl font-bold">Delicious Food Menu</h2>
+              </div>
+            </div>
+            <div className="w-full lg:w-6/12">
+              <div className="flex flex-wrap border-b border-gray-300">
+                <button className="px-4 py-2 font-medium text-orange-500 border-b-2 border-orange-500 flex items-center gap-2">
+                  Special <img src="img/icon/play.svg" alt="" />
+                </button>
+                <button className="px-4 py-2 font-medium text-gray-600 flex items-center gap-2">
+                  Breakfast <img src="img/icon/play.svg" alt="" />
+                </button>
+                <button className="px-4 py-2 font-medium text-gray-600 flex items-center gap-2">
+                  Launch <img src="img/icon/play.svg" alt="" />
+                </button>
+                <button className="px-4 py-2 font-medium text-gray-600 flex items-center gap-2">
+                  Dinner <img src="img/icon/play.svg" alt="" />
+                </button>
+                <button className="px-4 py-2 font-medium text-gray-600 flex items-center gap-2">
+                  Sneaks <img src="img/icon/play.svg" alt="" />
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <div className="tab-content">
+            <div className="active_tab">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-8">
+                {/* Map over menuItems to display them */}
+                {menuItems.map((item) => (
+                  <div key={item._id} className="flex items-center gap-4 bg-white p-4 rounded-lg">
+                    {/* Using item.picture from database */}
+                    <img src={item.picture} alt={item.title} className="w-20 h-20 object-cover rounded-lg" />
+                    <div>
+                      {/* Using item.title from database */}
+                      <h3 className="text-xl font-bold">{item.title}</h3>
+                      {/* Using item.describe from database */}
+                      <p className="text-gray-600">{item.describe}</p>
+                      {/* Using item.price from database */}
+                      <h5 className="text-orange-500 font-bold">${item.price.toFixed(2)}</h5>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* Video Section */}
       <section className="py-32 bg-cover bg-center" style={{ backgroundImage: "url('img/intro_video_bg.png')" }}>
         <div className="container mx-auto px-4">
