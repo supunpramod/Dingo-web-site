@@ -61,7 +61,7 @@ const Contactshow = () => {
               <button
                 onClick={() => handleDelete(contact._id)}
                 disabled={deletingId === contact._id}
-                className="mt-2 bg-red-500 hover:bg-red-600 text-white px-3 py-1 rounded w-20 h-10   "
+                className="mt-2 bg-orange-500 hover:bg-red-600 text-white px-3 py-1 rounded w-20 h-10   "
               >
                 {deletingId === contact._id ? "Deleting..." : "Delete"}
               </button>
