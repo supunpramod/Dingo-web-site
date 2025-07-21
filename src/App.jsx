@@ -20,6 +20,7 @@ import FoodMenu from "./dashboard components/Foodmenu.jsx";
 import ChefsManage from "./dashboard components/Chefsmanage.jsx";
 import TableBooking from "./dashboard components/Tablebooking.jsx";
 import BlogManage from "./dashboard components/Blogmanage.jsx";
+import Contactshow from "./dashboard components/Contactshow.jsx";
 
 // Dashboard Layout Component (මෙලෙසම තබන්න)
 const DashboardLayout = ({ sidebarOpen, setSidebarOpen }) => {
@@ -60,6 +61,7 @@ function App() {
           <Route path="/chefsmanage" element={< ChefsManage/>} />
           <Route path="/tablebooking" element={< TableBooking/>} />
           <Route path="/blogmanage" element={< BlogManage/>} />
+          <Route path="/contactshow" element={<Contactshow />} />
 
 
         </Route>

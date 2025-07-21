@@ -7,6 +7,7 @@ const navItems = [
   { name: 'Chefs Manage', icon: FolderIcon, path: '/chefsmanage' },
   { name: 'Table Booking', icon: CalendarIcon, path: '/tablebooking' },
   { name: 'Blog Manage', icon: ChartBarIcon, path: '/blogmanage' },
+  { name: 'Contact Show', icon: CogIcon, path: '/contactshow' },
 ];
 
 const Sidebar = ({ sidebarOpen, toggleSidebar }) => {
