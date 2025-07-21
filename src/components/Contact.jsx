@@ -1,5 +1,7 @@
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
+import axios from 'axios';
+
 
 const Contact = () => {
   const [formData, setFormData] = useState({
@@ -104,35 +106,36 @@ const Contact = () => {
     return Object.keys(newErrors).length === 0;
   };
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    
-    if (!validateForm()) return;
-    
-    setIsSubmitting(true);
-    
-    try {
-      // Simulate API call
-      await new Promise(resolve => setTimeout(resolve, 1000));
-      
-      // Reset form on success
+const handleSubmit = async (e) => {
+  e.preventDefault();
+
+  if (!validateForm()) return;
+
+  setIsSubmitting(true);
+
+  try {
+    const response = await axios.post('http://localhost:3000/api/contacts', formData);
+
+    if (response.status === 201) {
+      setSubmitSuccess(true);
       setFormData({
         name: '',
         email: '',
         subject: '',
         message: ''
       });
-      setSubmitSuccess(true);
-      
-      // Hide success message after 3 seconds
+
+      // Hide success after 3 seconds
       setTimeout(() => setSubmitSuccess(false), 3000);
-    } catch (error) {
-      console.error('Submission error:', error);
-      // You could set an error state here to show to the user
-    } finally {
-      setIsSubmitting(false);
     }
-  };
+  } catch (error) {
+    console.error('Submission error:', error.response?.data || error.message);
+    // You can show a user-friendly error message here too
+  } finally {
+    setIsSubmitting(false);
+  }
+};
+
 
   return (
     <>
