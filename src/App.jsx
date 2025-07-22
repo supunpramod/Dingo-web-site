@@ -11,6 +11,7 @@ import Chefs from "./components/Chefs.jsx";
 import Blog from "./components/Blog.jsx";
 import Element from "./components/Element.jsx";
 import Contact from "./components/Contact.jsx";
+import Booktable from "./components/Booktable.jsx";
 
 // විසඳුම: Named import භාවිතා කරන්න
 import  Sidebar  from "./dashboard components/Sidebar.jsx";
@@ -51,6 +52,7 @@ function App() {
         <Route path="/blog" element={<><Header /><Blog /><Footer /></>} />
         <Route path="/element" element={<><Header /><Element /><Footer /></>} />
         <Route path="/contact" element={<><Header /><Contact /><Footer /></>} />
+        <Route path="/booktable" element={<Booktable />} />
 
         {/* Dashboard Routes */}
         <Route 

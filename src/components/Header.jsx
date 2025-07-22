@@ -1,6 +1,9 @@
 import React, { useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 
+
+
+
 const Header = () => {
   const [isOpen, setIsOpen] = useState(false);
   const location = useLocation(); // Detect current route
@@ -66,12 +69,12 @@ const Header = () => {
         </nav>
 
         <div className="hidden lg:block">
-          <a
-            href="#book"
-            className="bg-orange-500 hover:bg-orange-600 text-white px-6 py-2 rounded-full text-sm font-semibold transition transform hover:scale-105 duration-200 shadow-md"
-          >
-            Book a Table
-          </a>
+         <Link
+  to="/booktable"
+  className="bg-orange-500 hover:bg-orange-600 text-white px-6 py-2 rounded-full text-sm font-semibold transition transform hover:scale-105 duration-200 shadow-md"
+>
+  Book a Table
+</Link>
         </div>
       </div>
     </header>
