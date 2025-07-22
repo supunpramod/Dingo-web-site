@@ -5,38 +5,35 @@ import { faArrowLeft, faArrowRight } from '@fortawesome/free-solid-svg-icons';
 
 const Blog = () => {
   const [blogPosts, setBlogPosts] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
-  // Dummy Data for Sidebar
+  // Static Sidebar Data
   const categories = [
-    { name: 'Technology', count: 5 },
-    { name: 'Design', count: 3 },
-    { name: 'Travel', count: 2 },
+    { name: "Restaurant food", count: 37 },
+    { name: "Travel news", count: 10 },
+    { name: "Modern technology", count: 3 },
+    { name: "Product", count: 11 },
+    { name: "Inspiration", count: 21 },
+    { name: "Health Care", count: 9 },
   ];
 
   const recentPosts = [
-    {
-      id: 1,
-      title: 'How to use React in 2025',
-      image: 'https://via.placeholder.com/80',
-      date: 'July 20, 2025',
-    },
-    {
-      id: 2,
-      title: 'UI Trends of the Future',
-      image: 'https://via.placeholder.com/80',
-      date: 'July 18, 2025',
-    },
+    { id: 1, title: "From life was you fish...", image: "img/post/post_1.png", date: "January 12, 2019" },
+    { id: 2, title: "The Amazing Hubble", image: "img/post/post_2.png", date: "02 Hours ago" },
+    { id: 3, title: "Astronomy Or Astrology", image: "img/post/post_3.png", date: "03 Hours ago" },
+    { id: 4, title: "Asteroids telescope", image: "img/post/post_4.png", date: "01 Hours ago" },
   ];
 
-  const tags = ['React', 'Design', 'Tech', 'UI', 'Backend'];
+  const tags = ["project", "love", "technology", "travel", "restaurant", "life style", "design", "illustration"];
 
   const instagramFeeds = [
-    'https://via.placeholder.com/100',
-    'https://via.placeholder.com/100',
-    'https://via.placeholder.com/100',
-    'https://via.placeholder.com/100',
-    'https://via.placeholder.com/100',
-    'https://via.placeholder.com/100',
+    "img/post/post_5.png",
+    "img/post/post_6.png",
+    "img/post/post_7.png",
+    "img/post/post_8.png",
+    "img/post/post_9.png",
+    "img/post/post_10.png",
   ];
 
   useEffect(() => {
@@ -45,7 +42,9 @@ const Blog = () => {
         const res = await axios.get("http://localhost:3000/api/blogPost");
         setBlogPosts(res.data);
       } catch (err) {
-        console.error("Failed to fetch blogs", err);
+        setError("Failed to load blog posts.");
+      } finally {
+        setLoading(false);
       }
     };
 
@@ -69,46 +68,49 @@ const Blog = () => {
         </div>
       </section>
 
-      {/* Blog Content Section */}
+      {/* Blog Section */}
       <section className="py-16">
         <div className="container mx-auto px-4">
           <div className="flex flex-col lg:flex-row gap-8">
-            {/* Main Blog Content */}
+            {/* Blog Posts */}
             <div className="lg:w-8/12">
-              {blogPosts.map((post) => (
-                <article key={post._id} className="mb-12">
-                  <div className="relative">
-                    <img
-                      src={post.image}
-                      alt={post.title}
-                      className="w-full h-96 object-cover rounded-lg"
-                    />
-                    <div className="absolute top-4 left-4 bg-white text-center p-3 rounded">
-                      <h3 className="text-xl font-bold">{post.date.day}</h3>
-                      <p className="text-sm">{post.date.month}</p>
+              {loading ? (
+                <p className="text-center">Loading...</p>
+              ) : error ? (
+                <p className="text-center text-red-500">{error}</p>
+              ) : (
+                blogPosts.map((post) => (
+                  <article key={post._id} className="mb-12">
+                    <div className="relative">
+                      <img
+                        src={post.image}
+                        alt={post.title}
+                        className="w-full h-96 object-cover rounded-lg"
+                      />
+                      <div className="absolute top-4 left-4 bg-white text-center p-3 rounded">
+                        <h3 className="text-xl font-bold">{post.date?.day}</h3>
+                        <p className="text-sm">{post.date?.month}</p>
+                      </div>
                     </div>
-                  </div>
-
-                  <div className="mt-6">
-                    <a href={`/blog/${post._id}`} className="block mb-3">
-                      <h2 className="text-2xl font-bold hover:text-orange-500 transition">
-                        {post.title}
-                      </h2>
-                    </a>
-                    <p className="text-gray-600 mb-4">{post.excerpt}</p>
-                    <div className="flex flex-wrap gap-4 text-sm text-gray-500">
-                      <span className="hover:text-orange-500 transition">
-                        <i className="far fa-user mr-1"></i> {post.category}
-                      </span>
-                      <span className="hover:text-orange-500 transition">
-                        <i className="far fa-comments mr-1"></i> {post.comments}
-                      </span>
+                    <div className="mt-6">
+                      <a href={`/blog/${post._id}`} className="block mb-3">
+                        <h2 className="text-2xl font-bold hover:text-orange-500 transition">{post.title}</h2>
+                      </a>
+                      <p className="text-gray-600 mb-4">{post.excerpt}</p>
+                      <div className="flex flex-wrap gap-4 text-sm text-gray-500">
+                        <span>
+                          <i className="far fa-user mr-1"></i> {post.category}
+                        </span>
+                        <span>
+                          <i className="far fa-comments mr-1"></i> {post.comments} Comments
+                        </span>
+                      </div>
                     </div>
-                  </div>
-                </article>
-              ))}
+                  </article>
+                ))
+              )}
 
-              {/* Pagination (Static for now) */}
+              {/* Pagination */}
               <nav className="flex justify-center mt-8">
                 <ul className="flex items-center space-x-2">
                   <li>
@@ -150,7 +152,7 @@ const Blog = () => {
                       type="button"
                       className="bg-orange-500 text-white px-4 py-2 rounded-r hover:bg-orange-600 transition"
                     >
-                      <i className="ti-search"></i>
+                      🔍
                     </button>
                   </div>
                   <button
@@ -166,14 +168,11 @@ const Blog = () => {
               <aside className="bg-white p-6 rounded-lg shadow-sm mb-8">
                 <h4 className="text-xl font-bold mb-4">Category</h4>
                 <ul className="space-y-2">
-                  {categories.map((category, index) => (
-                    <li key={index}>
-                      <a
-                        href="#"
-                        className="flex justify-between hover:text-orange-500 transition"
-                      >
-                        <p>{category.name}</p>
-                        <p>({category.count})</p>
+                  {categories.map((cat, i) => (
+                    <li key={i}>
+                      <a href="#" className="flex justify-between hover:text-orange-500 transition">
+                        <p>{cat.name}</p>
+                        <p>({cat.count})</p>
                       </a>
                     </li>
                   ))}
@@ -186,13 +185,9 @@ const Blog = () => {
                 <div className="space-y-4">
                   {recentPosts.map((post) => (
                     <div key={post.id} className="flex items-center gap-4">
-                      <img
-                        src={post.image}
-                        alt={post.title}
-                        className="w-20 h-20 object-cover rounded"
-                      />
+                      <img src={post.image} alt={post.title} className="w-20 h-20 object-cover rounded" />
                       <div>
-                        <a href="single-blog.html" className="font-medium hover:text-orange-500 transition">
+                        <a href="#" className="font-medium hover:text-orange-500 transition">
                           <h3>{post.title}</h3>
                         </a>
                         <p className="text-sm text-gray-500">{post.date}</p>
@@ -206,12 +201,8 @@ const Blog = () => {
               <aside className="bg-white p-6 rounded-lg shadow-sm mb-8">
                 <h4 className="text-xl font-bold mb-4">Tag Clouds</h4>
                 <div className="flex flex-wrap gap-2">
-                  {tags.map((tag, index) => (
-                    <a
-                      key={index}
-                      href="#"
-                      className="px-3 py-1 bg-gray-100 rounded-full text-sm hover:bg-orange-500 hover:text-white transition"
-                    >
+                  {tags.map((tag, i) => (
+                    <a key={i} href="#" className="px-3 py-1 bg-gray-100 rounded-full text-sm hover:bg-orange-500 hover:text-white transition">
                       {tag}
                     </a>
                   ))}
@@ -222,13 +213,9 @@ const Blog = () => {
               <aside className="bg-white p-6 rounded-lg shadow-sm mb-8">
                 <h4 className="text-xl font-bold mb-4">Instagram Feeds</h4>
                 <div className="grid grid-cols-3 gap-2">
-                  {instagramFeeds.map((feed, index) => (
-                    <a key={index} href="#">
-                      <img
-                        src={feed}
-                        alt={`Instagram post ${index + 1}`}
-                        className="w-full h-24 object-cover rounded"
-                      />
+                  {instagramFeeds.map((feed, i) => (
+                    <a key={i} href="#">
+                      <img src={feed} alt={`Instagram ${i}`} className="w-full h-24 object-cover rounded" />
                     </a>
                   ))}
                 </div>
